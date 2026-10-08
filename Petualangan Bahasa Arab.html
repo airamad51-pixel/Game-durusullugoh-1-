@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petualangan Bahasa Arab</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--ink:#2b2350;--card:#fff;--p:#7c4dff;--g:#2ecc71;--r:#ff5252;--y:#ffc400}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,#ffd86f,#ff9a8b 45%,#a18cff);min-height:100vh;background-attachment:fixed}
+.ar{font-family:'Amiri','Noto Naskh Arabic',serif;direction:rtl}
+#app{max-width:520px;margin:0 auto;padding:14px}
+.hud{display:flex;justify-content:space-between;align-items:center;background:#fff9;border-radius:18px;padding:8px 14px;font-weight:800;font-size:18px;backdrop-filter:blur(6px)}
+h1{font-size:34px;line-height:1;margin:10px 0 2px;text-align:center;color:#fff;text-shadow:0 3px 0 #5b2fd6}
+.sub{text-align:center;color:#fff;font-weight:700;margin:0 0 12px;text-shadow:0 1px 0 #0003}
+.owl{font-size:84px;text-align:center;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{border:0;border-radius:22px;padding:16px 8px;color:#fff;font:inherit;font-weight:800;font-size:17px;box-shadow:0 6px 0 #0003;cursor:pointer;transition:.1s}
+.mode:active{transform:translateY(5px);box-shadow:0 1px 0 #0003}
+.mode span{display:block;font-size:44px}
+.mode small{display:block;font-weight:500;font-size:13px;opacity:.95}
+.card{background:var(--card);border-radius:26px;padding:18px;margin-top:12px;box-shadow:0 8px 0 #0002;text-align:center}
+.bar{height:14px;background:#fff6;border-radius:9px;margin:10px 0;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#2ecc71,#a6ff4d);width:0;transition:.4s;border-radius:9px}
+.q{font-size:20px;font-weight:700}
+.big{font-size:92px;line-height:1.1}
+.bigar{font-size:64px;line-height:1.5;font-weight:700}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.opt{border:3px solid #e3dcff;background:#faf8ff;border-radius:18px;padding:10px;font:inherit;font-size:44px;cursor:pointer;color:var(--ink);box-shadow:0 4px 0 #cfc4ff;min-height:76px}
+.opt.ar{font-size:36px}
+.opt:active{transform:translateY(3px)}
+.opt.ok{background:#c9f7d8;border-color:var(--g);animation:pop .4s}
+.opt.no{background:#ffd6d6;border-color:var(--r);animation:shake .4s}
+@keyframes pop{50%{transform:scale(1.12)}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{min-height:54px;margin-top:10px;font-weight:800;font-size:18px}
+.btn{border:0;border-radius:18px;background:var(--p);color:#fff;font:inherit;font-weight:800;font-size:20px;padding:10px 26px;box-shadow:0 5px 0 #4a2bb5;cursor:pointer;margin-top:8px}
+.btn.alt{background:#fff;color:var(--p);box-shadow:0 5px 0 #cfc4ff}
+.mem{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.tile{aspect-ratio:1;perspective:600px;border:0;background:none;padding:0;cursor:pointer}
+.tile div{position:relative;width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d}
+.tile.f div{transform:rotateY(180deg)}
+.tile b,.tile u{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:16px;backface-visibility:hidden;text-decoration:none;box-shadow:0 4px 0 #0003}
+.tile b{background:linear-gradient(135deg,#7c4dff,#ff6ec7);color:#fff;font-size:34px}
+.tile u{background:#fff;transform:rotateY(180deg);font-size:46px}
+.tile u.ar{font-size:30px;font-weight:700;direction:rtl}
+.tile.m u{background:#c9f7d8}
+.stars{font-size:54px}
+.conf{position:fixed;top:-40px;font-size:28px;animation:fall 2.2s linear forwards;pointer-events:none;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.opt.sm{font-size:16px;font-weight:700;line-height:1.2}.lv{display:flex;align-items:center;gap:12px;background:#fff;border-radius:22px;padding:12px 14px;margin-top:12px;box-shadow:0 6px 0 #0002;border:0;width:100%;font:inherit;color:var(--ink);text-align:left;cursor:pointer}.lv.lock{opacity:.55;filter:grayscale(.8)}.lv span{font-size:42px}.lv b{font-size:19px}.far{font-size:30px;opacity:.9}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body><div id="app"></div>
+<script>
+const W=[["بَيْتٌ","rumah","🏠"],["مَسْجِدٌ","masjid","🕌"],["بَابٌ","pintu","🚪"],["مِفْتَاحٌ","kunci","🔑"],["قَلَمٌ","pena","✒️"],["كِتَابٌ","buku","📖"],["كُرْسِيٌّ","kursi","🪑"],["سَرِيرٌ","ranjang","🛏️"],["قَمِيصٌ","kemeja","👕"],["نَجْمٌ","bintang","⭐"],["كَلْبٌ","anjing","🐕"],["قِطٌّ","kucing","🐈"],["حِمَارٌ","keledai","🫏"],["حِصَانٌ","kuda","🐎"],["جَمَلٌ","unta","🐪"],["دِيكٌ","ayam jantan","🐓"],["طَبِيبٌ","dokter","👨‍⚕️"],["مُدَرِّسٌ","guru","👨‍🏫"],["طَالِبٌ","siswa","🧑‍🎓"],["وَلَدٌ","anak laki-laki","👦"],["سَيَّارَةٌ","mobil","🚗"],["شَمْسٌ","matahari","☀️"],["قَمَرٌ","bulan","🌙"],["مَاءٌ","air","💧"],["لَبَنٌ","susu","🥛"],["تُفَّاحٌ","apel","🍎"],["سَاعَةٌ","jam","⌚"],["مِلْعَقَةٌ","sendok","🥄"],["مَدْرَسَةٌ","sekolah","🏫"],["مُسْتَشْفَى","rumah sakit","🏥"],["حَقِيبَةٌ","tas","🎒"],["قَهْوَةٌ","kopi","☕"],["أَبٌ","ayah","👨"],["أُمٌّ","ibu","👩"],["أَخٌ","saudara laki-laki","🙋‍♂️"],["أُخْتٌ","saudari","🙋‍♀️"],["عَمٌّ","paman","🧔"],["جَدٌّ","kakek","👴"],["جَدَّةٌ","nenek","👵"],["بِنْتٌ","anak perempuan","👧"],["طِفْلٌ","anak kecil","👶"],["مَطْبَخٌ","dapur","🍳"],["حَمَّامٌ","kamar mandi","🛁"],["سُوقٌ","pasar","🛒"],["جَامِعَةٌ","universitas","🎓"],["مَدِينَةٌ","kota","🌆"],["حَدِيقَةٌ","taman","🌳"],["مُهَنْدِسٌ","insinyur","👷"],["مُمَرِّضَةٌ","perawat","👩‍⚕️"],["وَزِيرٌ","menteri","🤵"],["دَرَّاجَةٌ","sepeda","🚲"],["طَائِرَةٌ","pesawat","✈️"],["جَبَلٌ","gunung","⛰️"],["بَحْرٌ","laut","🌊"],["مَجَلَّةٌ","majalah","📰"],["قَرْيَةٌ","desa","🏘️"]];
+const S=[["الطَّالِبُ ___ الْمَدْرَسَةِ","في","Siswa itu di sekolah"],["الْكِتَابُ ___ الْمَكْتَبِ","على","Buku itu di atas meja"],["ذَهَبَ مُحَمَّدٌ ___ السُّوقِ","إلى","Muhammad pergi ke pasar"],["خَرَجَ الْمُدِيرُ ___ الْفَصْلِ","من","Kepala sekolah keluar dari kelas"],["الْقَلَمُ ___ الْحَقِيبَةِ","في","Pena ada di dalam tas"],["السَّاعَةُ ___ الْحَائِطِ","على","Jam ada di dinding"],["ذَهَبَ الطَّالِبُ ___ الْجَامِعَةِ","إلى","Siswa pergi ke universitas"],["خَرَجَ الطَّبِيبُ ___ الْمُسْتَشْفَى","من","Dokter keluar dari rumah sakit"],["الرَّجُلُ ___ الْمَسْجِدِ","في","Pria itu di masjid"],["الْمِلْعَقَةُ ___ الطَّاوِلَةِ","على","Sendok di atas meja"],["هُوَ ذَاهِبٌ ___ الْمَطْبَخِ","إلى","Dia pergi ke dapur"],["الْمَاءُ ___ الْبِئْرِ","من","Air dari sumur"]];
+const COL=[["أَحْمَرُ","merah","#e74c3c"],["أَخْضَرُ","hijau","#27ae60"],["أَزْرَقُ","biru","#2980b9"],["أَصْفَرُ","kuning","#f1c40f"],["أَسْوَدُ","hitam","#222"],["أَبْيَضُ","putih","#fff"]];
+const PRN=[["أَنَا","saya"],["نَحْنُ","kami / kita"],["أَنْتَ","kamu (lk)"],["أَنْتِ","kamu (pr)"],["أَنْتُمْ","kalian"],["هُوَ","dia (lk)"],["هِيَ","dia (pr)"],["هُمْ","mereka (lk)"]];
+const POS=[["بَيْتِي","rumahku"],["بَيْتُكَ","rumahmu"],["بَيْتُهُ","rumahnya (lk)"],["بَيْتُهَا","rumahnya (pr)"],["كِتَابِي","bukuku"],["أَبُوكَ","ayahmu"],["أُمِّي","ibuku"],["أَخُوهُ","saudaranya (lk)"],["قَلَمُهَا","penanya (pr)"],["سَيَّارَتِي","mobilku"]];
+const NUM=[["وَاحِدٌ",1],["اثْنَانِ",2],["ثَلَاثَةٌ",3],["أَرْبَعَةٌ",4],["خَمْسَةٌ",5],["سِتَّةٌ",6],["سَبْعَةٌ",7],["ثَمَانِيَةٌ",8],["تِسْعَةٌ",9],["عَشَرَةٌ",10]];
+const JM=[["طَالِبٌ","طُلَّابٌ"],["تَاجِرٌ","تُجَّارٌ"],["رَجُلٌ","رِجَالٌ"],["كِتَابٌ","كُتُبٌ"],["وَلَدٌ","أَوْلَادٌ"],["ابْنٌ","أَبْنَاءٌ"],["عَمٌّ","أَعْمَامٌ"],["شَيْخٌ","شُيُوخٌ"],["بِنْتٌ","بَنَاتٌ"],["مَجَلَّةٌ","مَجَلَّاتٌ"],["سَيَّارَةٌ","سَيَّارَاتٌ"],["كَلِمَةٌ","كَلِمَاتٌ"],["حَرْفٌ","حُرُوفٌ"],["أَخٌ","إِخْوَةٌ"],["أُخْتٌ","أَخَوَاتٌ"],["صَغِيرٌ","صِغَارٌ"]];
+const M={tebak:["🔍","Tebak Kata","Arab ↔ gambar","#7c4dff"],hadza:["👉","Hadza / Dzalika","ini atau itu?","#ff6b6b"],jar:["🧩","Isi Huruf Jar","في · على · من · إلى","#00b894"],mem:["🃏","Kartu Pasangan","cari pasangannya","#fd9644"]};
+let st={xp:0,hp:3,n:0,ok:0,streak:0,mode:"",best:0,lv:0},app=document.getElementById("app");
+try{st.best=+localStorage.getItem("bestxp")||0}catch(e){}
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+const ALL=["tebak","hadza","jar","jenis","arti","warna","dhamir","milik","angka","jamak","jamakisyara"];
+const LV=[["🌱","Pemula","Pelajaran 1–2: هذا & ذلك",["tebak","hadza"],20,8],["🧭","Penjelajah","Kosakata & huruf jar",["tebak","jar"],32,8],["⛵","Pelaut","Mudzakkar & Muannats",["jenis","tebak"],32,8],["🥷","Pendekar","Arti kalimat",["arti","jar","jenis"],32,8],["🏅","Juara 1","BOSS: campuran dasar",["tebak","hadza","jar","jenis","arti"],32,10],
+["🎨","Pelukis","Warna (الألوان)",["warna","tebak"],32,8],["👨‍👩‍👧","Keluarga","أب · أم · أخ · أخت",["tebak","jenis"],41,8],["🙋","Kata Ganti","أنا · أنتَ · هو · هي",["dhamir"],41,8],["🏡","Milikku","بيتي · بيتك · بيته",["milik","dhamir"],41,8],["🏅","Juara 2","BOSS: keluarga & kata ganti",["tebak","dhamir","milik","jenis"],41,10],
+["🔢","Angka","1 – 10 (الأعداد)",["angka"],41,8],["📚","Jamak I","طالب ➜ طلاب",["jamak"],41,8],["📖","Jamak II","jamak + هذا/هذه",["jamak","jenis"],48,8],["👥","Hā'ulā'","هؤلاء · أولئك",["jamakisyara","hadza"],48,8],["🏅","Juara 3","BOSS: angka & jamak",["angka","jamak","jamakisyara","jenis"],48,10],
+["🏙️","Kota","Tempat & huruf jar",["tebak","jar"],56,10],["🕌","Madinah","Arti kalimat lanjutan",["arti","jar","tebak"],56,10],["🧠","Pemikir","Kata ganti & milik",["dhamir","milik","jenis"],56,10],["🌈","Warna-Warni","Warna & angka",["warna","angka","tebak"],56,10],["🏅","Juara 4","BOSS: Medan Ilmu",["tebak","jar","arti","jamak","dhamir","milik"],56,12],
+["🚀","Roket","Kilat kosakata!",["tebak","jenis","hadza"],56,12],["🔥","Api Biru","Campuran lanjutan",["jamak","angka","warna","milik"],56,12],["⚡","Petir","Semua jenis soal",ALL,56,12],["💎","Berlian","Hampir sampai!",ALL,56,14],["👑","Raja Arab","FINAL BOSS: 15 soal",ALL,56,15]];
+let PR=Array(25).fill(0);try{PR=(JSON.parse(localStorage.getItem("lvpr"))||[]).concat(PR).slice(0,25)}catch(e){}
+const T=()=>st.lv?LV[st.lv-1][5]:8,P=()=>W.slice(0,st.lv?LV[st.lv-1][4]:W.length);
+let AC;function snd(f,d=.15,t="sine"){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=.12;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function conf(){for(let i=0;i<22;i++){const c=document.createElement("div");c.className="conf";c.textContent=["🎉","⭐","✨","🌟","🎊"][i%5];c.style.left=Math.random()*100+"vw";c.style.animationDelay=Math.random()*.6+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),3000)}}
+const hud=()=>`<div class="hud"><span>⭐ ${st.xp}</span><span>🔥 ${st.streak}</span><span>${"❤️".repeat(st.hp)}${"🖤".repeat(3-st.hp)}</span></div>`;
+function home(){st.mode="";app.innerHTML=`<div class="owl">🦉</div><h1>Petualangan Bahasa Arab</h1><p class="sub">Misi Madinah · Durusul Lughah Jilid 1</p>
+<button class="mode" style="background:#e84393;width:100%;margin-bottom:12px" onclick="map()"><span>🗺️</span>Mode Petualangan<small>Level 1 – 25 · buka satu per satu</small></button><div class="q" style="color:#fff;text-align:center;margin:6px 0">Latihan Bebas</div><div class="grid">${Object.entries(M).map(([k,v])=>`<button class="mode" style="background:${v[3]}" onclick="start('${k}')"><span>${v[0]}</span>${v[1]}<small>${v[2]}</small></button>`).join("")}</div>
+<div class="card"><b>🏆 Rekor XP: ${st.best}</b><br>Jawab benar berturut-turut untuk bonus 🔥!</div>`}
+function start(m){st.lv=0;st.mode=m;st.xp=0;st.hp=3;st.n=0;st.ok=0;st.streak=0;m=="mem"?mem():next()}
+function map(){st.lv=0;app.innerHTML=`<h1>🗺️ Peta Petualangan</h1><p class="sub">Raih ⭐ untuk membuka level berikutnya</p>${LV.map((l,i)=>{const o=i==0||PR[i-1]>0;return `<button class="lv ${o?"":"lock"}" ${o?`onclick="startLv(${i+1})"`:"disabled"}><span>${o?l[0]:"🔒"}</span><div><b>Level ${i+1}: ${l[1]}</b><br><small>${l[2]}</small><br>${"⭐".repeat(PR[i])}${"☆".repeat(3-PR[i])}</div></button>`}).join("")}<div style="text-align:center"><button class="btn alt" onclick="home()">🏠 Menu</button></div>`}
+function startLv(i){st.lv=i;st.mode="lv";st.xp=0;st.hp=3;st.n=0;st.ok=0;st.streak=0;next()}
+function next(){if(st.n>=T()||st.hp<=0)return end();const L=st.lv?LV[st.lv-1][3]:0,m=L?L[Math.random()*L.length|0]:st.mode;let q,opts,ans,hint;
+if(m=="tebak"){const w=sh(P()).slice(0,4);ans=w[0];const rev=Math.random()<.5;
+ q=rev?`<div class="big">${ans[2]}</div><div class="q">Apa bahasa Arabnya?</div>`:`<div class="bigar ar">${ans[0]}</div><div class="q">Gambar mana yang cocok?</div>`;
+ opts=sh(w).map(x=>[rev?x[0]:x[2],x===ans,rev]);hint=`${ans[0]} = ${ans[1]} ${ans[2]}`}
+else if(m=="hadza"){const w=sh(P())[0],near=Math.random()<.5;
+ q=`<div class="q">${near?"Bendanya DEKAT 👇":"Bendanya JAUH 🔭"}</div><div class="${near?"big":"far"}" style="${near?"":"text-align:right;font-size:34px"}">${w[2]}</div><div class="q">Pilih kata tunjuk yang tepat!</div>`;
+ opts=[["هَذَا",near,1],["ذَلِكَ",!near,1]];hint=`${near?"هَذَا":"ذَلِكَ"} ${w[0]} — ${near?"ini":"itu"} ${w[1]}`}
+else if(m=="warna"){const c=sh(COL).slice(0,4),a=c[0];q=`<div class="q">Warna apa ini?</div><div style="width:100px;height:100px;border-radius:50%;margin:10px auto;border:4px solid #ddd;background:${a[2]}"></div>`;opts=sh(c).map(x=>[x[0],x===a,1]);hint=`${a[0]} = ${a[1]}`}
+else if(m=="dhamir"||m=="milik"){const D=m=="milik"?POS:PRN,a=sh(D)[0],rev=Math.random()<.5,c=sh([a,...sh(D.filter(x=>x!==a)).slice(0,3)]);q=rev?`<div class="bigar ar">${a[0]}</div><div class="q">Artinya?</div>`:`<div class="big" style="font-size:40px">${a[1]}</div><div class="q">Bahasa Arabnya?</div>`;opts=c.map(x=>[rev?x[1]:x[0],x===a,rev?2:1]);hint=`${a[0]} = ${a[1]}`}
+else if(m=="angka"){const a=sh(NUM)[0],rev=Math.random()<.5,c=sh([a,...sh(NUM.filter(x=>x!==a)).slice(0,3)]);q=rev?`<div class="bigar ar">${a[0]}</div><div class="q">Berapa angkanya?</div>`:`<div class="q">Ada berapa? 🧮</div><div style="font-size:34px;word-break:break-all">${"⭐".repeat(a[1])}</div>`;opts=c.map(x=>[rev?x[1]:x[0],x===a,rev?0:1]);hint=`${a[0]} = ${a[1]}`}
+else if(m=="jamak"){const a=sh(JM)[0],c=sh([a,...sh(JM.filter(x=>x!==a)).slice(0,3)]);q=`<div class="q">Jamak (bentuk banyak) dari:</div><div class="bigar ar">${a[0]}</div>`;opts=c.map(x=>[x[1],x===a,1]);hint=`${a[0]} ➜ ${a[1]}`}
+else if(m=="jamakisyara"){const w=sh(P())[0],near=Math.random()<.5;q=`<div class="q">${near?"DEKAT 👇":"JAUH 🔭"} — banyak benda!</div><div style="font-size:${near?48:30}px;text-align:${near?"center":"right"}">${w[2].repeat(3)}</div>`;opts=[["هَؤُلَاءِ",near,1],["أُولَئِكَ",!near,1]];hint=`${near?"هَؤُلَاءِ":"أُولَئِكَ"} ${w[0]} — ${near?"ini (jamak)":"itu (jamak)"}`}
+else if(m=="jenis"){const f=x=>/ةٌ$|^(شَمْس|أُمٌّ|أُخْتٌ|بِنْتٌ)/.test(x[0]),A=P().filter(f),B=P().filter(x=>!f(x)),w=sh(Math.random()<.5&&A.length?A:B)[0],fem=f(w);
+ q=`<div class="q">Laki-laki (مذكر) atau perempuan (مؤنث)?</div><div class="big">${w[2]}</div><div class="bigar ar" style="font-size:40px">＿＿ ${w[0]}</div>`;
+ opts=[["هَذَا",!fem,1],["هَذِهِ",fem,1]];hint=`${fem?"هَذِهِ":"هَذَا"} ${w[0]} — ${fem?"muannats (berakhiran ة)":"mudzakkar"}`}
+else if(m=="arti"){const s=sh(S)[0];q=`<div class="q">Apa arti kalimat ini?</div><div class="bigar ar" style="font-size:36px">${s[0].replace("___",`<span style='color:#7c4dff'>${s[1]}</span>`)}</div>`;
+ opts=sh([s,...sh(S.filter(x=>x!==s)).slice(0,3)]).map(x=>[x[2],x===s,2]);hint=s[2]}
+else{const s=sh(S)[0];q=`<div class="q">Lengkapi kalimatnya!</div><div class="bigar ar" style="font-size:38px">${s[0].replace("___","<span style='color:#7c4dff'>＿＿</span>")}</div>`;
+ opts=sh(["في","على","من","إلى"]).map(x=>[x,x==s[1],1]);hint=s[2]}
+st.cur={hint};
+app.innerHTML=`${hud()}<div class="bar"><i style="width:${st.n/T()*100}%"></i></div><div class="card">${q}<div class="opts">${opts.map((o,i)=>`<button class="opt ${o[2]==1?"ar":o[2]==2?"sm":""}" data-ok="${o[1]}" onclick="pick(this)">${o[0]}</button>`).join("")}</div><div class="fb" id="fb"></div></div>`}
+function pick(b){const ok=b.dataset.ok=="true",fb=document.getElementById("fb");document.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(x.dataset.ok=="true")x.classList.add("ok")});
+if(ok){st.streak++;st.ok++;st.xp+=10+(st.streak>2?5:0);snd(660);snd(880,.2);fb.innerHTML=`🎉 Mantap! +${10+(st.streak>2?5:0)} XP<br><small class="ar">${st.cur.hint}</small>`;if(st.streak%3==0)conf()}
+else{b.classList.add("no");st.streak=0;st.hp--;snd(200,.3,"sawtooth");fb.innerHTML=`😅 Hampir! Yang benar:<br><small class="ar">${st.cur.hint}</small>`}
+st.n++;fb.innerHTML+=`<br><button class="btn" onclick="next()">Lanjut ➜</button>`;
+document.querySelector(".hud").outerHTML=hud()}
+function end(){const win=st.hp>0,r=st.ok/T(),stars=!win?0:r>=.9?3:r>=.7?2:1;const L=st.lv,king=L==25&&win;if(L&&stars>PR[L-1]){PR[L-1]=stars;try{localStorage.setItem("lvpr",JSON.stringify(PR))}catch(e){}}if(st.xp>st.best){st.best=st.xp;try{localStorage.setItem("bestxp",st.best)}catch(e){}}
+if(stars>1||king)conf();app.innerHTML=`<div class="owl">${win?"🏆":"🦉"}</div><div class="card"><h2>${king?"👑 Kamu Raja Bahasa Arab!":win?"Misi Selesai!":"Coba lagi, ya!"}</h2><div class="stars">${"⭐".repeat(stars)}${"☆".repeat(3-stars)}</div><p>Benar ${st.ok}/${T()} · ${st.xp} XP${st.xp>=st.best&&st.xp>0?" · 🎊 Rekor baru!":""}</p>${L&&win&&L<25?`<button class="btn" onclick="startLv(${L+1})">➡️ Level ${L+1}</button><br>`:""}<button class="btn ${L&&win&&L<25?"alt":""}" onclick="${L?`startLv(${L})`:`start('${st.mode}')`}">🔁 Main lagi</button><br><button class="btn alt" onclick="${L?"map()":"home()"}">${L?"🗺️ Peta Level":"🏠 Menu"}</button></div>`}
+let mm;
+function mem(){const w=sh(W).slice(0,6),t=[];w.forEach((x,i)=>{t.push({id:i,h:`<u class="ar">${x[0]}</u>`});t.push({id:i,h:`<u>${x[2]}</u>`})});mm={t:sh(t),open:[],moves:0,done:0,lock:false};
+app.innerHTML=`<div class="hud"><span>🃏 Kartu Pasangan</span><span id="mv">Langkah: 0</span></div><div class="card" style="padding:12px"><div class="q">Cocokkan kata Arab dengan gambarnya!</div><div class="mem">${mm.t.map((x,i)=>`<button class="tile" onclick="flip(${i},this)"><div><b>❓</b>${x.h}</div></button>`).join("")}</div><button class="btn alt" onclick="home()">🏠 Menu</button></div>`}
+function flip(i,el){if(mm.lock||el.classList.contains("f"))return;el.classList.add("f");snd(500,.08);mm.open.push([i,el]);if(mm.open.length<2)return;
+mm.moves++;document.getElementById("mv").textContent="Langkah: "+mm.moves;const[a,b]=mm.open;mm.open=[];
+if(mm.t[a[0]].id==mm.t[b[0]].id){a[1].classList.add("m");b[1].classList.add("m");snd(880,.2);if(++mm.done==6){st.xp=Math.max(10,120-mm.moves*5);st.ok=mm.moves<=9?8:mm.moves<=13?6:4;st.hp=1;setTimeout(end,900)}}
+else{mm.lock=true;snd(220,.2,"square");setTimeout(()=>{a[1].classList.remove("f");b[1].classList.remove("f");mm.lock=false},800)}}
+home();
+</script></body></html>
